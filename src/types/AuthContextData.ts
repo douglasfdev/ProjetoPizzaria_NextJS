@@ -5,4 +5,5 @@ export type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
   signIn: (credentials: SignProps) => Promise<void>;
+  signOut: () => void;
 }
