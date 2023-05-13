@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/home.module.scss'
 import Link from 'next/link'
-import { FormEvent, useContext } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { logo } from '../../public/images/index'
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -10,12 +10,15 @@ import { AuthContext } from '@/contexts/AuthContext'
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(evt: FormEvent) {
     evt.preventDefault();
     const data = {
-      email: "admin@admin.com",
-      password: "2332354"
+      email,
+      password
     }
 
     await signIn(data);
@@ -34,9 +37,19 @@ export default function Home() {
 
         <div className={styles.login}>
           <form onSubmit={handleLogin}>
-            <Input placeholder="Digite seu email" type="text" />
+            <Input
+              placeholder="Digite seu email"
+              type="text"
+              value={email}
+              onChange={ (e) => setEmail(e.target.value) }
+            />
 
-            <Input placeholder="Digite sua senha" type="password" />
+            <Input
+              placeholder="Digite sua senha"
+              type="password"
+              value={password}
+              onChange={ (e) => setPassword(e.target.value) }
+            />
 
             <Button type="submit" loading={false}>
               Acessar

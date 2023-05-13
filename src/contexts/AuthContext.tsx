@@ -1,5 +1,5 @@
 import { AuthProviderProps } from "@/interfaces";
-import { AuthContextData, UserProps } from "@/types";
+import { AuthContextData, SignProps, UserProps } from "@/types";
 import { createContext, useState } from "react";
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -12,8 +12,15 @@ export function AuthProvider({children}: AuthProviderProps) {
   });
   const isAuthenticated = !!user;
 
-  async function signIn() {
-    alert("CLICOU NO LOGIN");
+  async function signIn({email, password}: SignProps) {
+    console.table(
+      {
+        data: {
+          email,
+          password
+        },
+      }
+    )
   }
 
   return <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
