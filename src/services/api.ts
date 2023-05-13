@@ -7,7 +7,7 @@ export function setupAPIClient(context = undefined) {
   let cookies = parseCookies(context);
 
   const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'http://localhost:5000/v1',
     headers: {
       Authorization: `Bearer ${cookies['@pizza.token']}`,
     }
