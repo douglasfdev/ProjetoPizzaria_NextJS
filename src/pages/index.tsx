@@ -14,8 +14,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.container}>
-        <div>
+      <main className={styles.containerCenter}>
           <Image src={logo} alt="Logo Sujeito Pizzaria" />
 
           <div className={styles.login}>
@@ -32,14 +31,15 @@ export default function Home() {
 
               <Button
                 type='submit'
-                loading={true}
+                loading={false}
               >
                 Acessar
               </Button>
             </form>
+
+            <a className={styles.text}>Não possuí uma conta? Cadastre-se</a>
+            
           </div>
-        </div>
-        <div></div>
       </main>
     </>
   );
