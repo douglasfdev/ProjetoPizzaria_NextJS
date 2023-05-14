@@ -64,14 +64,15 @@ export function AuthProvider({children}: IAuthProviderProps) {
         password,
       });
 
-      toast.success('Cadastrado com Sucesso!', {
+      toast.success(`Bem vindo ${data.name}, Cadastrado com Sucesso!`, {
         position: toast.POSITION.TOP_CENTER,
         theme: 'dark',
       });
 
       Router.push('/');
     } catch (err) {
-      toast.error(`Erro ao se cadastrar ${err.message}`, {
+      const errorMessage = err.response.data;
+      toast.error(`${errorMessage.error}: ${errorMessage.message}`, {
         position: toast.POSITION.TOP_CENTER,
         theme: 'dark',
       });
