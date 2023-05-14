@@ -1,6 +1,6 @@
 import Router from "next/router";
 import { AuthProviderProps } from "@/interfaces";
-import { AuthContextData, SignProps, UserProps } from "@/types";
+import { AuthContextData, SignProps, UserProps, SignUpProps } from "@/types";
 import { destroyCookie, setCookie } from "nookies";
 import { createContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -50,13 +50,38 @@ export function AuthProvider({children}: AuthProviderProps) {
 
       Router.push('/dashboard');
     } catch (err) {
-      
+      toast.error('Erro ao fazer login', {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'dark',
+      });
+    }
+  }
+
+  async function signUp({ name, email, password }: SignUpProps) {
+    try {
+      const { data } = await api.post('/user/', {
+        name,
+        email,
+        password,
+      });
+
+      toast.success('Cadastrado com Sucesso!', {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'dark',
+      });
+
+      Router.push('/');
+    } catch (err) {
+      toast.error(`Erro ao se cadastrar ${err.message}`, {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'dark',
+      });
     }
   }
 
   return (
     <>
-      <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+      <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
         {children}
       </AuthContext.Provider>
       <ToastContainer />

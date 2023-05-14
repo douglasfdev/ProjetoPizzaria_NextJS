@@ -5,11 +5,14 @@ import Link from 'next/link';
 import { logo } from '../../../public/images/index';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { RiAlarmWarningFill } from 'react-icons/ri';
+import { AuthContext } from '@/contexts/AuthContext';
 
 export default function SignUp() {
+  const { signUp } = useContext(AuthContext);
+
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -28,6 +31,16 @@ export default function SignUp() {
     }
 
     setLoading(true);
+
+    const data = {
+      name,
+      email,
+      password,
+    }
+
+    await signUp(data);
+
+    setLoading(false);
   }
 
   return (
