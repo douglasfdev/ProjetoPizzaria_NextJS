@@ -7,21 +7,37 @@ import { logo } from '../../public/images/index'
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { AuthContext } from '@/contexts/AuthContext'
+import { ToastContainer, toast } from 'react-toastify'
+import { RiAlarmWarningFill } from 'react-icons/ri';
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function handleLogin(evt: FormEvent) {
     evt.preventDefault();
+
+    if (email === '' || password === '') {
+      toast.warn('Preencha os dados', {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'dark',
+        icon: RiAlarmWarningFill,
+      });
+      return;
+    }
+
+    setLoading(true);
+
     const data = {
       email,
       password
     }
 
     await signIn(data);
+
+    setLoading(false);
   }
 
   return (
@@ -59,6 +75,7 @@ export default function Home() {
             Não possuí uma conta? Cadastre-se
           </Link>
         </div>
+        <ToastContainer />
       </main>
     </>
   );

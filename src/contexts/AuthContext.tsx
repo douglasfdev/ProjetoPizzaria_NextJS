@@ -3,7 +3,7 @@ import { AuthProviderProps } from "@/interfaces";
 import { AuthContextData, SignProps, UserProps } from "@/types";
 import { destroyCookie, setCookie } from "nookies";
 import { createContext, useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { api } from "@/services/apiClient";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,14 +12,15 @@ export const AuthContext = createContext({} as AuthContextData);
 export function signOut() {
   try {
     toast.success('Deslogando...', {
-      position: toast.POSITION.BOTTOM_RIGHT
-    })
+      position: toast.POSITION.TOP_CENTER,
+    });
     destroyCookie(undefined, '@pizza.token');
     Router.push('/');
   } catch (err) {
     toast.error('Erro ao deslogar', {
-      position: toast.POSITION.TOP_RIGHT
-    })
+      position: toast.POSITION.TOP_CENTER,
+      theme: 'dark',
+    });
   }
 }
 
@@ -53,7 +54,12 @@ export function AuthProvider({children}: AuthProviderProps) {
     }
   }
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
-    {children}
-  </AuthContext.Provider>;
+  return (
+    <>
+      <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+        {children}
+      </AuthContext.Provider>
+      <ToastContainer />
+    </>
+  );
 }

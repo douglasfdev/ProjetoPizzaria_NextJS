@@ -5,8 +5,31 @@ import Link from 'next/link';
 import { logo } from '../../../public/images/index';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { FormEvent, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { RiAlarmWarningFill } from 'react-icons/ri';
 
 export default function SignUp() {
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function handleSignUp(evt: FormEvent) {
+    evt.preventDefault();
+    const verifyUser = name === '' || email === '' || password === '';
+
+    if (verifyUser) {
+      toast.warn('Preencha todos os Campos', {
+        position: toast.POSITION.TOP_CENTER,
+        theme: 'dark',
+        icon: RiAlarmWarningFill,
+      });
+    }
+
+    setLoading(true);
+  }
+
   return (
     <>
       <Head>
@@ -20,14 +43,33 @@ export default function SignUp() {
 
         <div className={styles.login}>
           <h1>Criando sua conta</h1>
-          <form>
-            <Input placeholder="Digite seu nome" type="text" />
+          
+          <form onSubmit={handleSignUp}>
+            <Input
+              placeholder="Digite seu nome"
+              type="text"
+              value={name}
+              onChange={ (ev) => setName(ev.target.value) }
+              />
 
-            <Input placeholder="Digite seu email" type="text" />
+            <Input
+              placeholder="Digite seu email"
+              type="text"
+              value={email}
+              onChange={ (ev) => setEmail(ev.target.value) }
+              />
 
-            <Input placeholder="Digite sua senha" type="password" />
+            <Input
+              placeholder="Digite sua senha"
+              type="password"
+              value={password}
+              onChange={ (ev) => setPassword(ev.target.value) }
+            />
 
-            <Button type="submit" loading={false}>
+            <Button
+              type="submit"
+              loading={loading}
+            >
               Cadastrar
             </Button>
           </form>
@@ -35,6 +77,7 @@ export default function SignUp() {
             Já possuí uma conta? Faça login!
           </Link>
         </div>
+        <ToastContainer />
       </main>
     </>
   );
