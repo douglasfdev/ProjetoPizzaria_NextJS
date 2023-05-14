@@ -24,15 +24,38 @@ export function signOut() {
 }
 
 export function AuthProvider({children}: IAuthProviderProps) {
-  const [user, setUser] = useState<UserProps | undefined>();
+  const [user, setUser] = useState<UserProps>();
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const { '@pizza.token': token } = parseCookies();
-    // TODO parei aqui
-    if (token) {
-      api.get
+    const fetchData = async () => {
+      const { '@pizza.token': token } = parseCookies();
+      if (token) {
+        try {
+          const { data } = await api.get('/auth/me');
+
+          setUser({
+            id: data.id,
+            name: data.name,
+            email: data.email,
+          });
+
+          toast.promise(Promise.resolve(data), {
+            pending: 'Logando...',
+            success: 'Logado com Sucesso!',
+            error: 'Algo de errado não está certo!',
+          }, {
+            position: toast.POSITION.TOP_CENTER,
+            theme: 'dark',
+          });
+        } catch (err) {
+          const errorMessage = err.response.data;
+          console.log(errorMessage);
+          signOut();
+        }
+      }
     }
+    fetchData();
   }, [])
 
   async function signIn({ email, password }: SignProps) {
@@ -72,10 +95,17 @@ export function AuthProvider({children}: IAuthProviderProps) {
         password,
       });
 
-      toast.success(`Bem vindo ${data.name}, Cadastrado com Sucesso!`, {
-        position: toast.POSITION.TOP_CENTER,
-        theme: 'dark',
-      });
+      toast.promise(
+        Promise.resolve(data), {
+          pending: 'Fazendo Login...',
+          success: `Bem vindo ${data.name}, Cadastrado com Sucesso!`,
+          error: 'Algo de errado não está certo!',
+        },
+        {
+          position: toast.POSITION.TOP_CENTER,
+          theme: 'dark',
+        },
+      );
 
       Router.push('/');
     } catch (err) {
