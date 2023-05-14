@@ -2,12 +2,12 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/home.module.scss'
 import Link from 'next/link'
-import { FormEvent, useContext, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import { logo } from '../../public/images/index'
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { AuthContext } from '@/contexts/AuthContext'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { RiAlarmWarningFill } from 'react-icons/ri';
 
 export default function Home() {
@@ -57,14 +57,16 @@ export default function Home() {
               placeholder="Digite seu email"
               type="text"
               value={email}
-              onChange={ (e) => setEmail(e.target.value) }
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setEmail(ev.target.value)}
             />
 
             <Input
               placeholder="Digite sua senha"
               type="password"
               value={password}
-              onChange={ (e) => setPassword(e.target.value) }
+              onChange={(ev: ChangeEvent<HTMLInputElement>) =>
+                setPassword(ev.target.value)
+              }
             />
 
             <Button type="submit" loading={false}>
@@ -75,7 +77,6 @@ export default function Home() {
             Não possuí uma conta? Cadastre-se
           </Link>
         </div>
-        <ToastContainer />
       </main>
     </>
   );

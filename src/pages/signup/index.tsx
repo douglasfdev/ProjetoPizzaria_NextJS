@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { logo } from '../../../public/images/index';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { FormEvent, useContext, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 import { AuthContext } from '@/contexts/AuthContext';
 
@@ -56,33 +56,30 @@ export default function SignUp() {
 
         <div className={styles.login}>
           <h1>Criando sua conta</h1>
-          
+
           <form onSubmit={handleSignUp}>
             <Input
               placeholder="Digite seu nome"
               type="text"
               value={name}
-              onChange={ (ev) => setName(ev.target.value) }
-              />
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setName(ev.target.value)}
+            />
 
             <Input
               placeholder="Digite seu email"
               type="text"
               value={email}
-              onChange={ (ev) => setEmail(ev.target.value) }
-              />
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setEmail(ev.target.value)}
+            />
 
             <Input
               placeholder="Digite sua senha"
               type="password"
               value={password}
-              onChange={ (ev) => setPassword(ev.target.value) }
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setPassword(ev.target.value)}
             />
 
-            <Button
-              type="submit"
-              loading={loading}
-            >
+            <Button type="submit" loading={loading}>
               Cadastrar
             </Button>
           </form>
@@ -90,7 +87,6 @@ export default function SignUp() {
             Já possuí uma conta? Faça login!
           </Link>
         </div>
-        <ToastContainer />
       </main>
     </>
   );

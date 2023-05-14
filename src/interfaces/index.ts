@@ -1,11 +1,11 @@
 import { IInputProps } from './IInput';
 import { ITextAreaProps } from './ITextArea';
 import { IButtonProps } from './IButtonProps';
-import { AuthProviderProps } from './AuthProviderProps';
+import { IAuthProviderProps } from './IAuthProviderProps';
 
 export type {
   IInputProps,
   ITextAreaProps,
   IButtonProps,
-  AuthProviderProps,
+  IAuthProviderProps,
 }

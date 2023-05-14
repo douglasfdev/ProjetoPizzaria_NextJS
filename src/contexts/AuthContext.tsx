@@ -1,11 +1,10 @@
 import Router from "next/router";
-import { AuthProviderProps } from "@/interfaces";
+import { IAuthProviderProps } from "@/interfaces";
 import { AuthContextData, SignProps, UserProps, SignUpProps } from "@/types";
 import { destroyCookie, setCookie } from "nookies";
 import { createContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { api } from "@/services/apiClient";
-import 'react-toastify/dist/ReactToastify.css';
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -24,7 +23,7 @@ export function signOut() {
   }
 }
 
-export function AuthProvider({children}: AuthProviderProps) {
+export function AuthProvider({children}: IAuthProviderProps) {
   const [user, setUser] = useState<UserProps | undefined>();
   const isAuthenticated = !!user;
 
@@ -80,11 +79,8 @@ export function AuthProvider({children}: AuthProviderProps) {
   }
 
   return (
-    <>
       <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
         {children}
       </AuthContext.Provider>
-      <ToastContainer />
-    </>
   );
 }

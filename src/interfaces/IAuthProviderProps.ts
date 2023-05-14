@@ -1,4 +1,4 @@
 import { ReactNode } from 'react';
-export interface AuthProviderProps {
+export interface IAuthProviderProps {
   children: ReactNode
 }
