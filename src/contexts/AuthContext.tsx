@@ -1,8 +1,8 @@
 import Router from "next/router";
 import { IAuthProviderProps } from "@/interfaces";
 import { AuthContextData, SignProps, UserProps, SignUpProps } from "@/types";
-import { destroyCookie, setCookie } from "nookies";
-import { createContext, useState } from "react";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { api } from "@/services/apiClient";
 
@@ -26,6 +26,14 @@ export function signOut() {
 export function AuthProvider({children}: IAuthProviderProps) {
   const [user, setUser] = useState<UserProps | undefined>();
   const isAuthenticated = !!user;
+
+  useEffect(() => {
+    const { '@pizza.token': token } = parseCookies();
+    // TODO parei aqui
+    if (token) {
+      api.get
+    }
+  }, [])
 
   async function signIn({ email, password }: SignProps) {
     try {
