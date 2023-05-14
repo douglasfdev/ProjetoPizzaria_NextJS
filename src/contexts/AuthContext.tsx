@@ -50,7 +50,10 @@ export function AuthProvider({children}: IAuthProviderProps) {
           });
         } catch (err) {
           const errorMessage = err.response.data;
-          console.log(errorMessage);
+          toast.error(errorMessage, {
+            position: toast.POSITION.TOP_CENTER,
+            theme: 'dark',
+          });
           signOut();
         }
       }
