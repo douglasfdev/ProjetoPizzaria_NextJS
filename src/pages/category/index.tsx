@@ -3,6 +3,7 @@ import Head from 'next/head';
 import styles from './styles.module.scss';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+import { setupAPIClient } from '@/services/api';
 
 export default function Category() {
   const [name, setName] = useState('');
@@ -10,7 +11,21 @@ export default function Category() {
   async function handleRegister(evt: FormEvent) {
     evt.preventDefault();
 
-    toast.success(`CATEGORIA ${name}`);
+    if (!name || name === '') {
+      return;
+    }
+
+    const apiClient = setupAPIClient(); 
+    await apiClient.post('/category/', {
+      name,
+    });
+
+    toast.success(`Categoria ${name.toLowerCase()} cadastrada com sucesso`, {
+      position: toast.POSITION.TOP_CENTER,
+      theme: 'dark',
+    })
+
+    setName('');
   }
 
   return (
