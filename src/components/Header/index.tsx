@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import Link from 'next/link';
 import styles from './styles.module.scss';
+import Link from 'next/link';
 import { logo } from '../../../public/images/index';
 import Image from 'next/image';
 import { FiLogOut } from 'react-icons/fi';
@@ -21,7 +21,7 @@ export function Header() {
           <Link href="/products">Cardapio</Link>
 
           <button onClick={signOut}>
-            <FiLogOut color="#FFF" size={23} />
+            <FiLogOut size={23} />
             <p> Logout </p>
           </button>
         </nav>

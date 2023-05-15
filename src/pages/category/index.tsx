@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { setupAPIClient } from '@/services/api';
+import { canSSRAuth } from '@/utils/casSSRAuth';
 
 export default function Category() {
   const [name, setName] = useState('');
@@ -33,25 +34,33 @@ export default function Category() {
       <Head>
         <title>Nova Categoria - Tech Pizzaria</title>
       </Head>
-
-      <main className={styles.container}>
+      <div>
         <Header />
-        <h1>Cadastrar categorias</h1>
-        
-        <form className={styles.form} onSubmit={handleRegister}>
-          <input
-            type='text'
-            placeholder='Digite o nome da categoria'
-            className={styles.input}
-            value={name}
-            onChange={(ev: ChangeEvent<HTMLInputElement>) => setName(ev.target.value)}
-          />
-
-          <button className={styles.buttonAdd} type='submit'>
-            Cadastrar
-          </button>
-        </form>
-      </main>
+    
+        <main className={styles.container}>
+          <h1>Cadastrar categorias</h1>
+          
+          <form className={styles.form} onSubmit={handleRegister}>
+            <input
+              type='text'
+              placeholder='Digite o nome da categoria'
+              className={styles.input}
+              value={name}
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setName(ev.target.value)}
+            />
+  
+            <button className={styles.buttonAdd} type='submit'>
+              Cadastrar
+            </button>
+          </form>
+        </main>
+      </div>
     </>
   );
 }
+
+export const getServerSideProps = canSSRAuth(async () => {
+  return {
+    props: {}
+  }
+});
