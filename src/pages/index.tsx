@@ -9,8 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { AuthContext } from '@/contexts/AuthContext'
 import { toast } from 'react-toastify'
 import { RiAlarmWarningFill } from 'react-icons/ri';
-import { GetServerSideProps } from 'next'
-import { canSSRGuest } from '@/utils/CanSSRGuest'
+import { canSSRGuest } from '@/utils/canSSRGuest'
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
@@ -51,7 +50,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.containerCenter}>
-        <Image src={logo} alt="Logo Sujeito Pizzaria" />
+        <Image src={logo} alt="Logo Tech Pizzaria" />
 
         <div className={styles.login}>
           <form onSubmit={handleLogin}>
