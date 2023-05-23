@@ -39,15 +39,6 @@ export function AuthProvider({children}: IAuthProviderProps) {
             name: data.name,
             email: data.email,
           });
-
-          toast.promise(Promise.resolve(data), {
-            pending: 'Logando...',
-            success: 'Logado com Sucesso!',
-            error: 'Algo de errado não está certo!',
-          }, {
-            position: toast.POSITION.TOP_CENTER,
-            theme: 'dark',
-          });
         } catch (err) {
           const errorMessage = err.response.data;
           toast.error(errorMessage, {

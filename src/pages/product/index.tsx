@@ -1,13 +1,19 @@
-import { Header } from "@/components/Header";
-import { canSSRAuth } from "@/utils/casSSRAuth";
+import { ChangeEvent, useState } from "react";
 import Head from "next/head";
 import styles from './styles.module.scss';
+import { Header } from "@/components/Header";
+import { canSSRAuth } from "@/utils/casSSRAuth";
 import { FiUpload } from 'react-icons/fi'
-import { ChangeEvent, useState } from "react";
+import { setupAPIClient } from '../../services/api';
+import { ICategoryProps } from "@/interfaces";
 
-export default function Product() {
+export default function Product({ categoryList }: ICategoryProps) {
+
+
   const [avatarUrl, setAvatarUrl] = useState('');
   const [imageAvatar, setImageAvatar] = useState(null);
+  const [categories, setCategories] = useState(categoryList || []);
+  const [categorySelected, setCategorySelected] = useState(0);
 
   function handleFile(evt: ChangeEvent<HTMLInputElement>) {
     if (!evt.target.files) {
@@ -26,6 +32,12 @@ export default function Product() {
     }
   }
 
+  // Quando selecionar uma nova categoria na lista
+  function handleChangeCategory(evt) {
+    setCategorySelected(evt.target.value);
+    
+  }
+
   return (
     <>
       <Head>
@@ -38,60 +50,47 @@ export default function Product() {
           <h1>Novo produto</h1>
 
           <form className={styles.form}>
-
             <label className={styles.labelAvatar}>
               <span>
                 <FiUpload size={30} />
               </span>
 
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleFile}
-              />
+              <input type="file" accept="image/png, image/jpeg" onChange={handleFile} />
 
               {avatarUrl && (
-                  <img
-                    className={styles.preview}
-                    src={avatarUrl}
-                    alt="Foto do produto"
-                    width={250}
-                    height={250}
-                  />
+                <img
+                  className={styles.preview}
+                  src={avatarUrl}
+                  alt="Foto do produto"
+                  width={250}
+                  height={250}
+                />
               )}
-
             </label>
 
-            <select name="" id="">
-              <option>
-                Bebida
-              </option>
-              <option>
-                Pizzas
-              </option>
+            <select value={categorySelected} onChange={handleChangeCategory}>
+              {categories.map( (item, index) => {
+                return (
+                  <option key={item.id} value={index}>
+                    {item.name}
+                  </option>
+                );
+              })}
             </select>
 
             <input
               type="text"
               placeholder="Digite o nome do produto"
               className={styles.input}
-              />
+            />
 
-            <input
-              type="text"
-              placeholder="Preço do produto"
-              className={styles.input}
-              />
+            <input type="text" placeholder="Preço do produto" className={styles.input} />
 
-            <textarea
-              placeholder="Descreva seu produto..."
-              className={styles.input}
-              />
+            <textarea placeholder="Descreva seu produto..." className={styles.input} />
 
-              <button className={styles.buttonAdd} type="submit">
-                Cadastrar
-              </button>
-
+            <button className={styles.buttonAdd} type="submit">
+              Cadastrar
+            </button>
           </form>
         </main>
       </div>
@@ -100,7 +99,13 @@ export default function Product() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
+  const apiClient = setupAPIClient(ctx);
+
+  const { data } = await apiClient.get('/category');
+
   return {
-    props: {}
+    props: {
+      categoryList: data,
+    }
   }
 })

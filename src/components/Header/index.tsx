@@ -18,7 +18,7 @@ export function Header() {
         <nav className={styles.menuNav}>
           <Link href="/category">Categoria</Link>
 
-          <Link href="/products">Cardapio</Link>
+          <Link href="/product">Cardapio</Link>
 
           <button onClick={signOut}>
             <FiLogOut size={23} />
