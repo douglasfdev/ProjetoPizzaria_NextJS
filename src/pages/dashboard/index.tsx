@@ -4,15 +4,30 @@ import Head from 'next/head';
 import styles from './style.module.scss';
 import { FiRefreshCcw } from 'react-icons/fi';
 import { setupAPIClient } from '@/services/api';
-import { IHomeProps } from '@/interfaces';
+import { IHomeProps, IOrderItemProps } from '@/interfaces';
 import { useState } from 'react';
+import Modal from 'react-modal';
+import { ModalOrder } from '@/components/ModalOrder';
 
 export default function Dashboard({orders}: IHomeProps) {
   const [orderList, setOrderList] = useState(orders || []);
+  const [modalItem, setModalItem] = useState<Array<IOrderItemProps>>();
+  const [modalVisible, setModalVIsible] = useState(false);
 
-  function handleOpenModalView(id: string) {
-    alert(`ID CLICADO ${id}`);
+  function handleCloseModal() {
+    setModalVIsible(false);
   }
+
+  async function handleOpenModalView(id: string) {
+    const apiClient = setupAPIClient();
+    const { data } = await apiClient.get(`order/${id}/item`)
+    console.log(data);
+
+    setModalItem(data);
+    setModalVIsible(true);
+  }
+
+  Modal.setAppElement('#__next');
 
   return (
     <>
@@ -46,6 +61,13 @@ export default function Dashboard({orders}: IHomeProps) {
           </article>
 
         </main>
+
+        {modalVisible && (
+          <ModalOrder
+
+          />
+        )}
+
       </div>
     </>
   );
