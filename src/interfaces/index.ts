@@ -3,6 +3,7 @@ import { ITextAreaProps } from './ITextArea';
 import { IButtonProps } from './IButtonProps';
 import { IAuthProviderProps } from './IAuthProviderProps';
 import { ICategoryProps } from './ICategoryProps';
+import { IHomeProps } from './IHomeProps';
 
 export type {
   IInputProps,
@@ -10,4 +11,5 @@ export type {
   IButtonProps,
   IAuthProviderProps,
   ICategoryProps,
+  IHomeProps,
 }

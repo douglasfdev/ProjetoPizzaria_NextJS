@@ -3,6 +3,7 @@ import { SignProps } from './SignProps';
 import { UserProps } from './UserProps';
 import { SignUpProps } from './SignUpProps';
 import { ItemProps } from './ItemProps';
+import { OrderProps } from './OrderProps';
 
 export type {
   AuthContextData,
@@ -10,4 +11,5 @@ export type {
   UserProps,
   SignUpProps,
   ItemProps,
+  OrderProps,
 }
