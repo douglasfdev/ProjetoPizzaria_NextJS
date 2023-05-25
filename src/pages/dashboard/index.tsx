@@ -18,13 +18,63 @@ export default function Dashboard({orders}: IHomeProps) {
     setModalVIsible(false);
   }
 
+  function renderStatus(status: number) {
+    switch (status) {
+      case 0:
+        return 'ABERTO';
+      case 1:
+        return 'ATENDIDA';
+      case 2:
+        return 'CANCELADO';
+      default:
+        return 'ABERTO';
+    }
+  }
+
+  function getStatusClassName(status: number) {
+    switch (status) {
+      case 0:
+        return styles.aberto;
+      case 1:
+        return styles.atendido;
+      case 2:
+        return styles.cancelado;
+      default:
+        return styles.aberto;
+    }
+  }
+
+
   async function handleOpenModalView(id: string) {
     const apiClient = setupAPIClient();
     const { data } = await apiClient.get(`order/${id}/item`)
-    console.log(data);
 
     setModalItem(data);
     setModalVIsible(true);
+  }
+
+  async function handleFinishItem(id: string) {
+    const apiClient = setupAPIClient();
+    await apiClient.patch(`/order/close/${id}`);
+
+    const { data } = await apiClient.get('/order/orders');
+    setOrderList(data);
+
+    setModalVIsible(false);
+  }
+
+  async function handleAttendItem(id: string) {
+    const apiClient = setupAPIClient();
+    await apiClient.patch(`/order/attend/${id}`);
+
+    setModalVIsible(false);
+  }
+
+  async function handleCancelItem(id: string) {
+    const apiClient = setupAPIClient();
+    await apiClient.delete(`/order/${id}`);
+
+    setModalVIsible(false);
   }
 
   Modal.setAppElement('#__next');
@@ -47,19 +97,18 @@ export default function Dashboard({orders}: IHomeProps) {
           </div>
 
           <article className={styles.listOrders}>
-            
             {orderList.map((item) => (
               <section key={item.id} className={styles.orderItem}>
                 <button onClick={() => handleOpenModalView(item.id)}>
                   <div className={styles.tag}></div>
-                  <span>Mesa {item.table}</span>
+                  <span>Mesa: {item.table}</span> -
+                  <span className={`${styles.status} ${getStatusClassName(item.status)}`}>
+                    {renderStatus(item.status)}
+                  </span>
                 </button>
               </section>
             ))}
-
-
           </article>
-
         </main>
 
         {modalVisible && (
@@ -67,9 +116,11 @@ export default function Dashboard({orders}: IHomeProps) {
             isOpen={modalVisible}
             onRequestClose={handleCloseModal}
             order={modalItem}
+            handleFinishOrder={handleFinishItem}
+            handleAttendOrder={handleAttendItem}
+            handleCancelOrder={handleCancelItem}
           />
         )}
-
       </div>
     </>
   );

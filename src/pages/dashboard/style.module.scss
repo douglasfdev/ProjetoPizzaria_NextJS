@@ -48,6 +48,10 @@
     height: 60px;
     align-items: center;
   }
+
+  span:nth-child(2) {
+    margin: 0 1rem 0 0.2rem;
+  }
 }
 
 .tag {
@@ -56,4 +60,23 @@
   height: 60px;
   border-radius: 0.3rem 0 0 0.3rem;
   margin: 0 1rem 0 0;
+}
+
+.status {
+  margin: 0 0 0 1rem;
+  padding: 0.2rem 1.2rem;
+  border-radius: 0.2rem;
+  font-weight: 600;
+}
+
+.aberto {
+  color: var(--yellow-700);
+}
+
+.atendido {
+  color: var(--green-900);
+}
+
+.cancelado {
+  color: var(--red-900);
 }
