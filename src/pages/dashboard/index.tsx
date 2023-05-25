@@ -44,7 +44,6 @@ export default function Dashboard({orders}: IHomeProps) {
     }
   }
 
-
   async function handleOpenModalView(id: string) {
     const apiClient = setupAPIClient();
     const { data } = await apiClient.get(`order/${id}/item`)
@@ -77,6 +76,13 @@ export default function Dashboard({orders}: IHomeProps) {
     setModalVIsible(false);
   }
 
+  async function handleRefreshOrders() {
+    const apiClient = setupAPIClient();
+    const { data } = await apiClient.get('/order/orders');
+
+    setOrderList(data);
+  }
+
   Modal.setAppElement('#__next');
 
   return (
@@ -91,12 +97,19 @@ export default function Dashboard({orders}: IHomeProps) {
         <main className={styles.container}>
           <div className={styles.containerHeader}>
             <h1>Últimos Pedidos</h1>
-            <button>
+            <button onClick={handleRefreshOrders}>
               <FiRefreshCcw size={25} />
             </button>
           </div>
 
           <article className={styles.listOrders}>
+
+            {orderList.length === 0 && (
+              <span className={styles.emptyList}>
+                Nenhum pedido aberto foi encontrado...
+              </span>
+            )}
+
             {orderList.map((item) => (
               <section key={item.id} className={styles.orderItem}>
                 <button onClick={() => handleOpenModalView(item.id)}>

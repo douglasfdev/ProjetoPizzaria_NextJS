@@ -80,3 +80,22 @@
 .cancelado {
   color: var(--red-900);
 }
+
+.emptyList {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+
+.refresh-animation {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
