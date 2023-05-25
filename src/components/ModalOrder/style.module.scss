@@ -1,8 +1,71 @@
 .container {
+  width: 620px;
+  background-color: var(--dark-700);
+  color: var(--white-c);
 
-  
+  h2 {
+    margin: 1rem 0;
+
+  }
+}
+
+.containerItem {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+
+  strong {
+    color: var(--green-900);
+  }
+}
+
+.description {
+  margin: 0.5rem 0 0 0;
+  // se chegar a descrição no final do modal quero que quebre para a linha de baixo
+  word-break: break-all;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.2rem;
+  font-weight: 600;
 }
 
 .table {
-  
+  font-size: 1.4rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.2rem;
+  font-weight: 600;
+  background: var(--white-c);
+  color: var(--dark-900);
+
+  strong {
+    font-weight: 600;
+    color: var(--red-900);
+  }
+}
+
+.buttonOrder {
+  margin: 1rem 0 0 0;
+  background-color: rgba(0, 0, 0, 40%);
+  border: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  color: var(--red-900);
+  font-weight: 600;
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    width: 430px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .container {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .container {
+    width: 250px;
+  }
 }

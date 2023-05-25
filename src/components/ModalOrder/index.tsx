@@ -32,12 +32,18 @@ export function ModalOrder({ isOpen, onRequestClose, order }: IModalORderProps) 
         <span className={styles.table}>
           Mesa: <strong>{order[0].order.table}</strong>
         </span>
+
         {order.map((item) => (
           <section key={item.id} className={styles.containerItem}>
             <span> {item.amount} - <strong> {item.products.name} </strong> </span>
             <span className={styles.description}> {item.products.description} </span>
           </section>
         ))}
+
+        <button className={styles.buttonOrder} onClick={ () => {} }>
+          Concluir Pedido
+        </button>
+
       </div>
     </Modal>
   );
