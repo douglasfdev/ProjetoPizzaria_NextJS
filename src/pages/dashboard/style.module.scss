@@ -77,6 +77,11 @@
   color: var(--green-900);
 }
 
+.finalizado {
+  color: var(--green-900);
+  text-decoration: line-through;
+}
+
 .cancelado {
   color: var(--red-900);
 }

@@ -6,6 +6,7 @@ import { ICategoryProps } from './ICategoryProps';
 import { IHomeProps } from './IHomeProps';
 import { IOrderItemProps } from './IOrderProps';
 import { IModalORderProps } from './IModalOrderProps';
+import { IItemsProps } from './IItemsProps';
 
 export type {
   IInputProps,
@@ -16,4 +17,5 @@ export type {
   IHomeProps,
   IOrderItemProps,
   IModalORderProps,
+  IItemsProps,
 }

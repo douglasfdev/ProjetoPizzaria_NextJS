@@ -16,6 +16,7 @@ export default function SignUp() {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   async function handleSignUp(evt: FormEvent) {
@@ -36,6 +37,7 @@ export default function SignUp() {
       name,
       email,
       password,
+      role: isAdmin ? 'administrador' : 'garcom',
     }
 
     await signUp(data);
@@ -52,7 +54,7 @@ export default function SignUp() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.containerCenter}>
-        <Image src={logo} alt="Logo Sujeito Pizzaria" />
+        <Image src={logo} alt="Logo Tech Pizzaria" />
 
         <div className={styles.login}>
           <h1>Criando sua conta</h1>
@@ -78,6 +80,16 @@ export default function SignUp() {
               value={password}
               onChange={(ev: ChangeEvent<HTMLInputElement>) => setPassword(ev.target.value)}
             />
+
+            <div className={styles.checkbox}>
+              <label htmlFor="role">Selecione caso for usuario administrador:</label>
+              <input
+                className={styles.check}
+                type="checkbox"
+                checked={isAdmin}
+                onChange={(ev: ChangeEvent<HTMLInputElement>) => setIsAdmin(ev.target.checked)}
+              />
+            </div>
 
             <Button type="submit" loading={loading}>
               Cadastrar
