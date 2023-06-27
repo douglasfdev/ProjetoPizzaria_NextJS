@@ -23,8 +23,10 @@ export default function Dashboard({orders}: IHomeProps) {
       case 0:
         return 'ABERTO';
       case 1:
-        return 'ATENDIDA';
+        return 'ATENDIDO';
       case 2:
+        return 'FINALIZADO';
+      case 3:
         return 'CANCELADO';
       default:
         return 'ABERTO';
@@ -38,6 +40,8 @@ export default function Dashboard({orders}: IHomeProps) {
       case 1:
         return styles.atendido;
       case 2:
+        return styles.finalizado;
+      case 3:
         return styles.cancelado;
       default:
         return styles.aberto;
@@ -46,7 +50,7 @@ export default function Dashboard({orders}: IHomeProps) {
 
   async function handleOpenModalView(id: string) {
     const apiClient = setupAPIClient();
-    const { data } = await apiClient.get(`order/${id}/item`)
+    const { data } = await apiClient.get(`orders/${id}/item`)
 
     setModalItem(data);
     setModalVIsible(true);
@@ -54,9 +58,9 @@ export default function Dashboard({orders}: IHomeProps) {
 
   async function handleFinishItem(id: string) {
     const apiClient = setupAPIClient();
-    await apiClient.patch(`/order/close/${id}`);
+    await apiClient.patch(`/orders/close/${id}`);
 
-    const { data } = await apiClient.get('/order/orders');
+    const { data } = await apiClient.get('/orders');
     setOrderList(data);
 
     setModalVIsible(false);
@@ -64,21 +68,21 @@ export default function Dashboard({orders}: IHomeProps) {
 
   async function handleAttendItem(id: string) {
     const apiClient = setupAPIClient();
-    await apiClient.patch(`/order/attend/${id}`);
+    await apiClient.patch(`/orders/attend/${id}`);
 
     setModalVIsible(false);
   }
 
   async function handleCancelItem(id: string) {
     const apiClient = setupAPIClient();
-    await apiClient.delete(`/order/${id}`);
+    await apiClient.delete(`/orders/${id}`);
 
     setModalVIsible(false);
   }
 
   async function handleRefreshOrders() {
     const apiClient = setupAPIClient();
-    const { data } = await apiClient.get('/order/orders');
+    const { data } = await apiClient.get('/orders/opened/');
 
     setOrderList(data);
   }
@@ -96,7 +100,7 @@ export default function Dashboard({orders}: IHomeProps) {
 
         <main className={styles.container}>
           <div className={styles.containerHeader}>
-            <h1>Últimos Pedidos</h1>
+              <h1>Últimos Pedidos</h1>
             <button onClick={handleRefreshOrders}>
               <FiRefreshCcw size={25} />
             </button>
@@ -141,7 +145,7 @@ export default function Dashboard({orders}: IHomeProps) {
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
   const apiclient = setupAPIClient(ctx);
-  const { data } = await apiclient.get('/order/orders');
+  const { data } = await apiclient.get('/orders');
 
   return {
     props: {

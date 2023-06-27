@@ -81,12 +81,13 @@ export function AuthProvider({children}: IAuthProviderProps) {
     }
   }
 
-  async function signUp({ name, email, password }: SignUpProps) {
+  async function signUp({ name, email, password, role }: SignUpProps) {
     try {
       const { data } = await api.post('/user/', {
         name,
         email,
         password,
+        role
       });
 
       toast.promise(
